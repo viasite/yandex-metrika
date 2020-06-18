@@ -1,12 +1,16 @@
 <?php
 namespace App;
+use Symfony\Contracts\Cache\ItemInterface;
 use Yandex\Metrica\Management\ManagementClient;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Utils {
   public $accessToken;
+  private $_cache;
 
   public function __construct($accessToken) {
     $this->accessToken = $accessToken;
+    $this->_cache = new FilesystemAdapter();
   }
 
   public function getCountersSelect($current = 0) {
@@ -32,16 +36,21 @@ class Utils {
   }
 
   public function getCounters() {
-    $managementClient = new ManagementClient($this->accessToken);
+    $counters = $this->_cache->get('counters', function (ItemInterface $item) {
+      $item->expiresAfter(86400);
+      $managementClient = new ManagementClient($this->accessToken);
 
-    $params = new \Yandex\Metrica\Management\Models\CountersParams();
-    $params
-      ->setType(\Yandex\Metrica\Management\AvailableValues::TYPE_SIMPLE)
-      ->setField('goals,mirrors,grants,filters,operations');
+      $params = new \Yandex\Metrica\Management\Models\CountersParams();
+      $params
+        ->setType(\Yandex\Metrica\Management\AvailableValues::TYPE_SIMPLE)
+        ->setField('goals,mirrors,grants,filters,operations');
 
-    return $managementClient
-      ->counters()
-      ->getCounters($params)
-      ->getCounters();
+      return $managementClient
+        ->counters()
+        ->getCounters($params)
+        ->getCounters();
+    });
+
+    return $counters;
   }
 }

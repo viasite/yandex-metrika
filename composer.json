@@ -1,6 +1,7 @@
 {
     "require": {
-        "nixsolutions/yandex-php-library": "dev-master"
+        "nixsolutions/yandex-php-library": "dev-master",
+        "symfony/cache": "^5.1"
     },
     "autoload": {
         "psr-0": {
@@ -8,4 +9,3 @@
         }
     }
 }
-
