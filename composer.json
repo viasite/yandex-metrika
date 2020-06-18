@@ -1,0 +1,11 @@
+{
+    "require": {
+        "nixsolutions/yandex-php-library": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "App": "src/"
+        }
+    }
+}
+
