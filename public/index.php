@@ -23,7 +23,9 @@ if($counterId) {
     $report = new App\Report($accessToken, $counterId, $filename);
 
     $start = microtime(true);
-    $output = $report->getReport();
+    $outputMain = $report->getReport();
+    $outputGoals = $report->getReportGoals();
+    $output = $outputMain . "\n" . $outputGoals;
     $time = round(microtime(true) - $start, 2);
 
     echo "time: $time<br>\n";
