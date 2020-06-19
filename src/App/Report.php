@@ -72,12 +72,23 @@ class Report {
    *
    * @return string строка для таблицы, разделена табами, выравнивается до 10 строк
    */
-  private function getGoalsByDimension($dimension, $period = 30) {
+  private function getGoalsByDimension($dimension, $period = 365) {
+    $dimsReplaceMap = [
+      'Прямые заходы' => 'Прямые',
+      'Переходы из поисковых систем' => 'Из поиска',
+      'Переходы по ссылкам на сайтах' => 'С других сайтов',
+      'Внутренние переходы' => 'Внутренние',
+      'Переходы из социальных сетей' => 'Соц. сети',
+      'Переходы из рекомендательных систем' => 'Рекомендательные',
+      'Переходы с сохранённых страниц' => 'Закладки',
+    ];
+
     $from1 = (1 + $period) . 'daysAgo';
     $to1 = '1daysAgo';
     $dimensions = $dimension . ',' . DimensionsConst::S_GOAL_DIMENSION;
 
     $resultByDimension = [];
+    $resultByGoal = [];
 
     $paramsModel = new \Yandex\Metrica\Stat\Models\TableParams();
     $paramsModel
@@ -91,12 +102,18 @@ class Report {
 
     $goalsNames = [];
     $goalsNames[] = 'Визиты';
+    $dimsNames = [];
+
+    //    $visitsByDimenstion = [];
 
     /** @var $items \Yandex\Metrica\Stat\Models\DrillDownItems */
     foreach ($dataLevel0->getData()->getAll() as $items) {
       $dim = $items->getDimension();
       $dimName = $dim->getName();
       $resultByDimension[$dimName] = ['Визиты' => $items->getMetrics()[0]];
+//      $visitsByDimenstion[$dimName] = $items->getMetrics()[0];
+      $resultByGoal['Визиты'][$dimName] = $items->getMetrics()[0];
+      if(!in_array($dimName, $dimsNames)) $dimsNames[] = $dimName;
 
       if($items->getExpand()){
         $dataLevel1 = $data->getDrillDown($paramsModel, [$dim->getId()]);
@@ -106,26 +123,44 @@ class Report {
           $goalName = $dimL1->getName();
           if(!in_array($goalName, $goalsNames)) $goalsNames[] = $goalName;
           $resultByDimension[$dimName][$goalName] = $itemsL1->getMetrics()[0];
+          $resultByGoal[$goalName][$dimName] = $itemsL1->getMetrics()[0];
         }
       }
     }
 
     // дополнение нулями для симметрии (на всякий случай копируем в другой массив)
-    $result = [];
+    // ряды - измерения, колонки - цели
+    /*$result = [];
+    $result[$dimension] = $goalsNames;
     foreach ($resultByDimension as $dimName => $goals) {
       // $result[$dimName]['Визиты'] = $goals['Визиты'];
       foreach ($goalsNames as $goalsName) {
         if(!isset($goals[$goalsName])) $result[$dimName][$goalsName] = 0;
         else $result[$dimName][$goalsName] = $goals[$goalsName];
       }
+    }*/
+
+    // дополнение нулями для симметрии (на всякий случай копируем в другой массив)
+    // ряды - цели, колонки - измерения
+    $result = [];
+    $dimsNamesShort = array_map(function($name) use ($dimsReplaceMap) {
+      return str_replace(array_keys($dimsReplaceMap), $dimsReplaceMap, $name);
+    }, $dimsNames);
+
+    $result[$dimension] = $dimsNamesShort;
+    foreach ($resultByGoal as $goalName => $dims) {
+      foreach ($dimsNames as $dimsName) {
+        if(!isset($dims[$dimsName])) $result[$goalName][$dimsName] = 0;
+        else $result[$goalName][$dimsName] = $dims[$dimsName];
+      }
     }
 
     $lines = [];
-    $lines[] = $dimension . "\t" . implode("\t", $goalsNames);
+//    $lines[] = $dimension . "\t" . implode("\t", $goalsNames);
     foreach ($result as $dimName => $goals) {
       $lines[] = $dimName . "\t" . implode("\t", $goals);
     }
-    return implode("\n", $lines) . implode('', array_fill(0, 10 - count($lines) + 1, "\n"));
+    return implode("\n", $lines) . implode('', array_fill(0, 16 - count($lines) + 1, "\n"));
   }
 
   public function getReport() {

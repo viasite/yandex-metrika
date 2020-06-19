@@ -11,10 +11,11 @@
 ![demo](assets/demo.gif)
 
 ## Установка
-1. Настроить веб-сервер на корень сервиса - `public`.
-2. Создать приложение на https://oauth.yandex.ru/ , дать ему права на чтение Метрики.
-3. Перейти на https://oauth.yandex.ru/authorize?response_type=token&client_id=your_app_client_id, получить токен.
-4. Скопировать `config.example.php` в `config.php`, добавить туда токен.
+1. `git clone https://github.com/viasite/yandex-metrika && cd yandex-metrika && composer install`
+2. Настроить веб-сервер на корень сервиса - `public`.
+3. Создать приложение на https://oauth.yandex.ru/ , дать ему права на чтение Метрики.
+4. Перейти на https://oauth.yandex.ru/authorize?response_type=token&client_id=your_app_client_id, получить токен.
+5. Скопировать `config.example.php` в `config.php`, добавить туда токен.
 
 ## Возможности
 ### Отчёты со сравнением последнего месяца и этого же месяца год назад:
