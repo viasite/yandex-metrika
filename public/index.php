@@ -1,5 +1,6 @@
 <head>
     <title>Яндекс.Метрика: отчёты</title>
+    <link href="/favicon.png" rel="icon" type="image/x-icon" sizes="16x16">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
       const reportsLinks = {
