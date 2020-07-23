@@ -22,18 +22,11 @@ $(function() {
   select.on('change', function() {
     counterId = select.val();
     updateReports(counterId);
-
-    let siteBrief = '';
-    console.log('counterId:', counterId);
-    if(counterId > 0) {
-      const counterName = select.find('option:selected').text();
-      siteBrief = `${counterName}, ${counterId}, <a target="_blank" href="https://${counterName}">link</a>`;
-    }
-    $('#current-site-brief').html(siteBrief);
   });
 });
 
 const updateReports = (counterId) => {
+  let siteBrief = '';
   const reports = $('<ul id="metrika-reports"></ul>');
   if(counterId != 0) {
     for (let name in reportsLinks) {
@@ -41,6 +34,12 @@ const updateReports = (counterId) => {
           counterId);
       reports.append(`<li><a href="${href}">${name}</a></li>`);
     }
+
+    const select = $('#counter_id');
+    const counterName = select.find('option:selected').text();
+    siteBrief = `${counterName}, ${counterId}, <a target="_blank" href="https://${counterName}">link</a>`;
   }
   $('#metrika-reports').replaceWith(reports);
+
+  $('#current-site-brief').html(siteBrief);
 }
