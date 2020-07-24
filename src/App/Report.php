@@ -72,7 +72,7 @@ class Report {
    *
    * @return string строка для таблицы, разделена табами, выравнивается до 10 строк
    */
-  private function getGoalsByDimension($dimension, $period = 365) {
+  private function getGoalsByDimension($dimension, $period = 365, $ago = 0) {
     $dimsReplaceMap = [
       'Прямые заходы' => 'Прямые',
       'Переходы из поисковых систем' => 'Из поиска',
@@ -83,8 +83,8 @@ class Report {
       'Переходы с сохранённых страниц' => 'Закладки',
     ];
 
-    $from1 = (1 + $period) . 'daysAgo';
-    $to1 = '1daysAgo';
+    $from1 = (1 + $period + $ago) . 'daysAgo';
+    $to1 = (1 + $ago) . 'daysAgo';
     $dimensions = $dimension . ',' . DimensionsConst::S_GOAL_DIMENSION;
 
     $resultByDimension = [];
@@ -207,8 +207,14 @@ class Report {
   }
 
   public function getReportGoals() {
-    $bySource = $this->getGoalsByDimension(DimensionsConst::S_TRAFFIC_SOURCE);
-    $byDevice = $this->getGoalsByDimension('ym:s:deviceCategory');
+    // год назад
+    $bySource = $this->getGoalsByDimension(DimensionsConst::S_TRAFFIC_SOURCE, 365, 365);
+    $byDevice = $this->getGoalsByDimension('ym:s:deviceCategory', 365, 365);
+
+    // последний год
+    // $bySource = $this->getGoalsByDimension(DimensionsConst::S_TRAFFIC_SOURCE);
+    // $byDevice = $this->getGoalsByDimension('ym:s:deviceCategory');
+
     return $bySource . "\n" . $byDevice;
   }
 }
