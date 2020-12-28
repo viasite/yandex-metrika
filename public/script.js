@@ -11,7 +11,8 @@ const reportsLinks = {
   'Возраст': 'https://metrika.yandex.ru/stat/demography_age?chart_type=bar-chart&period=year&attribution=Last&id={{counter_id}}',
   'Пол': 'https://metrika.yandex.ru/stat/demography_structure?chart_type=pie&period=year&attribution=Last&id={{counter_id}}',
   'Устройства': 'https://metrika.yandex.ru/stat/tech_devices?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
-  'Эл. коммерция': 'https://metrika.yandex.ru/stat/purchase?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}'
+  'Эл. коммерция': 'https://metrika.yandex.ru/stat/purchase?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
+  'Вебмастер: Качество': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/quality-tools/quality/',
 }
 
 $(function() {
@@ -29,14 +30,17 @@ const updateReports = (counterId) => {
   let siteBrief = '';
   const reports = $('<ul id="metrika-reports"></ul>');
   if(counterId != 0) {
+    const select = $('#counter_id');
+    const counterName = select.find('option:selected').text();
+
     for (let name in reportsLinks) {
-      const href = reportsLinks[name].replace('{{counter_id}}',
+      let href = reportsLinks[name].replace('{{counter_id}}',
           counterId);
+      href = reportsLinks[name].replace('{{url_webmaster}}',
+          `https:${counterName}:443`);
       reports.append(`<li><a href="${href}">${name}</a></li>`);
     }
 
-    const select = $('#counter_id');
-    const counterName = select.find('option:selected').text();
     siteBrief = `${counterName}, ${counterId}, <a target="_blank" href="https://${counterName}">link</a>`;
   }
   $('#metrika-reports').replaceWith(reports);
