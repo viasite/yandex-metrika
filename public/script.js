@@ -34,10 +34,9 @@ const updateReports = (counterId) => {
     const counterName = select.find('option:selected').text();
 
     for (let name in reportsLinks) {
-      let href = reportsLinks[name].replace('{{counter_id}}',
-          counterId);
-      href = reportsLinks[name].replace('{{url_webmaster}}',
-          `https:${counterName}:443`);
+      let href = reportsLinks[name].
+          replace('{{counter_id}}', counterId).
+          replace('{{url_webmaster}}', `https:${counterName}:443`);
       reports.append(`<li><a href="${href}">${name}</a></li>`);
     }
 
