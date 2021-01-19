@@ -97,6 +97,7 @@ ul {
 
 a {
     color: #1da72e;
+    text-decoration: none;
 }
 
 a:focus, a:hover {

@@ -13,6 +13,9 @@ const reportsLinks = {
   'Устройства': 'https://metrika.yandex.ru/stat/tech_devices?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
   'Эл. коммерция': 'https://metrika.yandex.ru/stat/purchase?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
   'Вебмастер: Качество': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/quality-tools/quality/',
+  'Вебмастер: Запросы': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/search/statistics/',
+  'Вебмастер: Страницы': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/search/urls/',
+  'Вебмастер: Индексирование': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/indexing/indexing/',
 }
 
 $(function() {
