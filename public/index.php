@@ -12,13 +12,13 @@ require dirname(__FILE__) . '/../vendor/autoload.php';
 require(dirname(__FILE__) . '/../config.php');
 global $accessToken, $filename;
 
-$counterId = intval($_GET['counter_id']);
+$counterId = intval($_REQUEST['counter_id']);
 
 $utils = new \App\Utils($accessToken);
 $select = $utils->getCountersSelect($counterId);
 
 ?>
-<form action="" method="get">
+<form action="" method="post">
   <!--<label for="counter_id">id счётчика</label> <input type="text" name="counter_id" id="counter_id" value="<?=$counterId?>">-->
   <?=$select?>
   <input type="submit" value="Получить отчёт">
