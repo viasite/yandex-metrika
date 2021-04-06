@@ -28,6 +28,7 @@ $(function() {
   const select = $('#counter_id');
   let counterId = select.val();
   updateReports(counterId);
+  drawBookmarks();
 
   select.on('change', function() {
     counterId = select.val();
@@ -35,7 +36,7 @@ $(function() {
   });
 });
 
-const updateReports = (counterId) => {
+function updateReports(counterId) {
   let siteBrief = '';
   const reports = $('<ul id="metrika-reports"></ul>');
   if(counterId != 0) {
@@ -55,4 +56,60 @@ const updateReports = (counterId) => {
   $('#metrika-reports').replaceWith(reports);
 
   $('#current-site-brief').html(siteBrief);
+
+  // bookmarks
+  if(counterId != 0) {
+    const fav = $('<a class="bookmark__toggle" href="javascript:"></a>');
+    fav.text(isBookmarked(counterId) ? 'remove bookmark' : 'add bookmark');
+    $('#current-site-brief').append(fav);
+
+    fav.on('click', function() {
+      const isAdd = !isBookmarked(counterId);
+      addToBookmarks(counterId, isAdd);
+      fav.text(isBookmarked(counterId) ? 'remove bookmark' : 'add bookmark');
+    });
+  }
+}
+
+function addToBookmarks(counterId, isAdd = true) {
+  const bookmarks = getBookmarks();
+
+  // add
+  if (isAdd && !bookmarks[counterId]) bookmarks[counterId] = true;
+
+  // remove
+  if (!isAdd && bookmarks[counterId]) delete(bookmarks[counterId]);
+
+  setBookmarks(bookmarks);
+  drawBookmarks();
+}
+
+function isBookmarked(counterId) {
+  return !!getBookmarks()[counterId];
+}
+
+function getBookmarks() {
+  return JSON.parse(window.localStorage.bookmarks || '{}');
+}
+
+function setBookmarks(bookmarks) {
+  window.localStorage.bookmarks = JSON.stringify(bookmarks);
+}
+
+// рисуются только те, что есть в списке
+function drawBookmarks() {
+  const ul = $('<ul></ul>');
+  $('#counter_id option').each(function() {
+    const counterId = $(this).val();
+    const text = $(this).text();
+    if (isBookmarked(counterId)) {
+      const a = $(`<a href="javascript:" data-counter-id="${counterId}" class="bookmark__link">${text}</a>`);
+      a.on('click', function() {
+        const counterId = $(this).data('counterId');
+        $('#counter_id').val(counterId).trigger('change');
+      })
+      ul.append($('<li></li>').append(a));
+    }
+  });
+  $('#bookmarks').html(ul);
 }

@@ -23,6 +23,7 @@ $select = $utils->getCountersSelect($counterId);
   <?=$select?>
   <input type="submit" value="Получить отчёт">
 </form>
+<div id="bookmarks"></div>
 <div id="current-site">
     <div id="current-site-brief"></div>
     <ul id="metrika-reports"></ul>

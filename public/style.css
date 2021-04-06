@@ -141,3 +141,7 @@ button, input[type="submit"] {
 #counter_id {
     height: 27px;
 }
+
+.bookmark__toggle {
+    margin-left: 2em;
+}
