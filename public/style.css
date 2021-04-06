@@ -105,12 +105,14 @@ a:focus, a:hover {
 }
 
 a[href^="https://metrika.yandex"],
-a[href^="https://webmaster.yandex"] {
+a[href^="https://webmaster.yandex"],
+a[href^="https://search.google.com"] {
     display: inline-block;
 }
 
 a[href^="https://metrika.yandex"]::before,
-a[href^="https://webmaster.yandex"]::before {
+a[href^="https://webmaster.yandex"]::before,
+a[href^="https://search.google.com"]::before {
     display: inline-block;
     content: '';
     width: 16px;
@@ -124,6 +126,10 @@ a[href^="https://metrika.yandex"]::before {
 
 a[href^="https://webmaster.yandex"]::before {
     background: url(images/yandex-webmaster-16.png) 0 0 no-repeat;
+}
+
+a[href^="https://search.google.com"]::before {
+    background: url(images/google-search-console-16.png) 0 0 no-repeat;
 }
 
 button, input[type="submit"] {

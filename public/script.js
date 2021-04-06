@@ -12,10 +12,16 @@ const reportsLinks = {
   'Пол': 'https://metrika.yandex.ru/stat/demography_structure?chart_type=pie&period=year&attribution=Last&id={{counter_id}}',
   'Устройства': 'https://metrika.yandex.ru/stat/tech_devices?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
   'Эл. коммерция': 'https://metrika.yandex.ru/stat/purchase?group=week&chart_type=stacked-chart&period=year&attribution=Last&id={{counter_id}}',
+  'Вебвизор': 'https://metrika.yandex.ru/stat/visor?period=year&id={{counter_id}}',
   'Вебмастер: Качество': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/quality-tools/quality/',
   'Вебмастер: Запросы': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/search/statistics/',
   'Вебмастер: Страницы': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/search/urls/',
   'Вебмастер: Индексирование': 'https://webmaster.yandex.ru/site/{{url_webmaster}}/indexing/indexing/',
+  'Google: Поиск': 'https://search.google.com/search-console/performance/search-analytics?resource_id={{gsc_resource_id}}',
+  'Google: Скорость': 'https://search.google.com/search-console/core-web-vitals?resource_id={{gsc_resource_id}}',
+  'Google: Скорость: Мобильные': 'https://search.google.com/search-console/core-web-vitals/summary?resource_id={{gsc_resource_id}}&device=2',
+  'Google: Удобство для мобильных': 'https://search.google.com/search-console/mobile-usability?resource_id={{gsc_resource_id}}',
+  'Google: AMP': 'https://search.google.com/search-console/amp?resource_id={{gsc_resource_id}}',
 }
 
 $(function() {
@@ -39,7 +45,8 @@ const updateReports = (counterId) => {
     for (let name in reportsLinks) {
       let href = reportsLinks[name].
           replace('{{counter_id}}', counterId).
-          replace('{{url_webmaster}}', `https:${counterName}:443`);
+          replace('{{url_webmaster}}', `https:${counterName}:443`).
+          replace('{{gsc_resource_id}}', `https://${counterName}/`);
       reports.append(`<li><a href="${href}">${name}</a></li>`);
     }
 
