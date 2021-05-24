@@ -1,4 +1,6 @@
 const reportsLinks = {
+  'Посещаемость': 'https://metrika.yandex.ru/stat/traffic?chart_type=stacked-chart&accuracy=1&period={{year}}&id={{counter_id}}',
+  'Источники': 'https://metrika.yandex.ru/stat/sources?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
   'Источники': 'https://metrika.yandex.ru/stat/sources?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
   'Поисковые системы': 'https://metrika.yandex.ru/stat/search_engines?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
   'Глубина просмотра': 'https://metrika.yandex.ru/stat/5c1418041709fe9d50c6229d?group=week&period={{year}}&id={{counter_id}}',
