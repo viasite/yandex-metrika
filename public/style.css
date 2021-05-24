@@ -132,6 +132,14 @@ a[href^="https://search.google.com"]::before {
     background: url(images/google-search-console-16.png) 0 0 no-repeat;
 }
 
+li a:first-child {
+    min-width: 300px;
+}
+
+.link_secondary::before {
+    background: none !important;
+}
+
 button, input[type="submit"] {
     background-color: #1da72e;
     color: #fff;

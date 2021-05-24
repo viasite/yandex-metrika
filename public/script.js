@@ -58,7 +58,24 @@ function updateReports(counterId) {
           replace('{{url_webmaster}}', `https:${counterName}:443`).
           replace('{{year}}', yearAligned).
           replace('{{gsc_resource_id}}', `https://${counterName}/`);
-      reports.append(`<li><a href="${href}">${name}</a></li>`);
+      let hrefMonth = href.
+          replace(yearAligned, 'month').
+          replace('group=week&', '');
+      let hrefWeek = href.
+          replace(yearAligned, 'week').
+          replace('group=week&', '');
+
+      const li = $('<li></li>');
+      li.append(`<a href="${href}">${name}</a>`);
+
+      // ссылки на разные периоды для метрики
+      if (reportsLinks[name].includes('metrika.yandex.ru')) {
+        li.append(`<a class="link_secondary" href="${href}">год</a>`);
+        li.append(`<a class="link_secondary" href="${hrefMonth}">месяц</a>`);
+        li.append(`<a class="link_secondary" href="${hrefWeek}">неделя</a>`);
+      }
+
+      reports.append(li);
     }
 
     siteBrief = `${counterName}, ${counterId}, <a target="_blank" href="https://${counterName}">link</a>`;
