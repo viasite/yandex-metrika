@@ -3,6 +3,7 @@ const reportsLinks = {
   'Конверсии': 'https://metrika.yandex.ru/stat/conversion_rate?group=week&period={{year}}&id={{counter_id}}',
   'Источники': 'https://metrika.yandex.ru/stat/sources?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
   'Поисковые системы': 'https://metrika.yandex.ru/stat/search_engines?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
+  'Запросы': 'https://metrika.yandex.ru/stat/phrases?group=week&chart_type=stacked-chart&period={{year}}&id={{counter_id}}',
   'Глубина просмотра': 'https://metrika.yandex.ru/stat/5c1418041709fe9d50c6229d?group=week&period={{year}}&id={{counter_id}}',
   'Время на сайте': 'https://metrika.yandex.ru/stat/deepness_time?chart_type=stacked-chart?group=week&period={{year}}&id={{counter_id}}',
   'Цели по источникам': 'https://metrika.yandex.ru/stat/5c1a8bbfad22f472b5a401f3?group=week&period={{year}}&id={{counter_id}}',
@@ -49,6 +50,7 @@ function updateReports(counterId) {
     let from = Date.today().add(-365).day();
     if (from.getDay() != 1) from = from.previous().monday();
     from = from.toString('yyyy-MM-dd');
+    // from = '2021-05-19'; // TODO: remove
 
     const to = Date.today().previous().sunday().toString('yyyy-MM-dd');
 
